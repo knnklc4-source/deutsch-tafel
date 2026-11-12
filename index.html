@@ -210,6 +210,7 @@ input,textarea,select{font:inherit;color:inherit}
       <button id="followBtn" class="tbtn" title="Alle Schüler sehen jetzt diese Seite">📢 Alle hierher</button>
       <button id="lockBtn" class="tbtn" title="Nur der Lehrer kann schreiben">🔓 Alle schreiben</button>
       <button id="renameBtn" class="tbtn" title="Seite umbenennen">✏️</button>
+      <button id="delPageBtn" class="tbtn" title="Diese Seite löschen">🗑️</button>
       <button id="clearBtn" class="tbtn" title="Seite leeren">🧹</button>
       <button id="saveBtn" class="tbtn" title="Tafel als Datei speichern">💾</button>
       <button id="openBtn" class="tbtn" title="Gespeicherte Tafel öffnen">📂</button>
@@ -889,9 +890,10 @@ function onHostMsg(m){
       if (Array.isArray(m.pages) && m.pages.length){
         S.pages = m.pages.filter(p=>p&&typeof p.id==="string").map(p=>({id:p.id.slice(0,40), name:String(p.name||"Seite").slice(0,30), bg:p.bg||"blank"}));
         for (const p of S.pages) pageItems(p.id);
+        for (const k of Object.keys(S.items)) if (!S.pages.some(p=>p.id===k)) delete S.items[k];
       }
       S.locked = !!m.locked;
-      if (!S.pages.some(p=>p.id===S.page)) S.page = S.pages[0].id;
+      if (!S.pages.some(p=>p.id===S.page)){ S.page = S.pages[0].id; V.z = 1; V.ox = V.oy = 0; updateZoomUI(); }
       renderPages(); updateLockUI(); dirty = true; break;
     }
     case "handdown": if (S.hand) setHand(false); break;
@@ -1260,6 +1262,23 @@ async function addPage(){
   S.pages.push({id, name: name.trim().slice(0,30) || "Seite " + S.pages.length, bg:"lines"});
   pageItems(id); settingsChanged(); gotoPage(id);
 }
+$("#delPageBtn").onclick = async () => {
+  const p = curPage();
+  if (S.pages.length < 2){
+    const ok = await ask("Das ist die einzige Seite. Soll sie stattdessen geleert werden?", {danger:true, okText:"Leeren"});
+    if (ok) clearPage(S.page);
+    return;
+  }
+  const ok = await ask("Die Seite „" + p.name + "“ ganz löschen?\nAlles darauf ist dann weg.", {danger:true});
+  if (!ok) return;
+  const i = S.pages.findIndex(x => x.id === p.id);
+  S.pages = S.pages.filter(x => x.id !== p.id);
+  delete S.items[p.id];
+  const next = S.pages[Math.max(0, i-1)].id;
+  S.page = next; S.draft = null; S.gramMarks.clear(); V.z = 1; V.ox = V.oy = 0; updateZoomUI();
+  settingsChanged(); renderCursors();
+  toast("Seite gelöscht ✓");
+};
 $("#renameBtn").onclick = async () => {
   const p = curPage(); const name = await ask("Neuer Name für diese Seite:", {value:p.name});
   if (name == null || !name.trim()) return;
