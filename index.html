@@ -90,6 +90,41 @@ input,textarea,select{font:inherit;color:inherit}
 .keys .ok{background:var(--accent);color:#fff;border-color:var(--accent);padding:0 10px;font-size:13px}
 
 /* ---------- grammar panel ---------- */
+#menu{width:360px;background:var(--panel);border-left:1px solid var(--line);display:flex;flex-direction:column;min-height:0}
+#menu header{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid var(--line)}
+#menu header b{font-size:15px}
+#menu header button{border:none;background:none;font-size:18px;color:var(--muted)}
+#menu .tabs{display:flex;border-bottom:1px solid var(--line)}
+#menu .tab{flex:1;border:none;background:none;padding:9px 4px;font-size:13px;border-bottom:2px solid transparent}
+#menu .tab.on{border-bottom-color:var(--accent);font-weight:600}
+#menu .body{padding:10px 12px;overflow-y:auto;flex:1}
+#menu h4{margin:14px 0 6px;font-size:13px}
+#menu .hint{color:var(--muted);font-size:12px;margin:6px 0}
+#knowSearch{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;margin-bottom:8px}
+.kcard{border:1px solid var(--line);border-radius:10px;margin-bottom:6px;background:#fff}
+.kcard summary{padding:9px 10px;cursor:pointer;font-weight:600;list-style:none}
+.kcard summary::-webkit-details-marker{display:none}
+.kcard summary:before{content:"▸ ";color:var(--muted)}
+.kcard[open] summary:before{content:"▾ "}
+.kbody{padding:0 10px 10px;font-size:13.5px;line-height:1.45}
+.kbody h4{margin:10px 0 4px!important;color:#b45309}
+.kbody p{margin:3px 0}
+.kbody table{border-collapse:collapse;width:100%;margin:6px 0;font-size:12.5px}
+.kbody th,.kbody td{border:1px solid var(--line);padding:3px 5px;text-align:left}
+.kbody th{background:#eef4ff}
+.mini{border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 10px}
+.mini.put{margin-top:8px;background:#eef4ff;border-color:#bcd0ff}
+.mini.big2{padding:8px 12px}
+.row2{display:flex;gap:6px;flex-wrap:wrap}
+.tplGrid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.tplGrid button{border:1px solid var(--line);background:#fff;border-radius:10px;padding:12px 8px;text-align:left}
+.tplGrid button:hover,.mini:hover{background:#f3f4f6}
+.handRow{display:flex;justify-content:space-between;align-items:center;padding:4px 0}
+#handList{margin-bottom:6px;color:var(--muted)}
+.tbtn.on{background:#fff4e5;border-color:#f59e0b}
+.badge{position:absolute;top:14px;right:16px;background:#1f2430;color:#fff;padding:8px 14px;border-radius:10px;font-size:20px;font-weight:700;z-index:8;font-variant-numeric:tabular-nums}
+.badge.done{background:#dc2626}
+.badge.pick{top:auto;bottom:60px;left:50%;right:auto;transform:translateX(-50%);background:#7c3aed}
 #gram{width:360px;background:var(--panel);border-left:1px solid var(--line);display:flex;flex-direction:column;min-height:0}
 #gram header{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid var(--line)}
 #gram header b{font-size:15px}
@@ -126,14 +161,18 @@ input,textarea,select{font:inherit;color:inherit}
 #modal .row .primary{background:var(--accent);border-color:var(--accent);color:#fff}
 #modal .row .danger{background:#dc2626;border-color:#dc2626;color:#fff}
 
-@media (max-width:900px){ #gram{position:absolute;right:0;top:0;bottom:0;z-index:10;width:min(360px,92vw);box-shadow:-6px 0 20px rgba(0,0,0,.1)} #main{position:relative} #people{display:none} }
+@media (max-width:900px){ #menu{position:absolute;right:0;top:0;bottom:0;z-index:10;width:min(360px,92vw);box-shadow:-6px 0 20px rgba(0,0,0,.1)} #gram{position:absolute;right:0;top:0;bottom:0;z-index:10;width:min(360px,92vw);box-shadow:-6px 0 20px rgba(0,0,0,.1)} #main{position:relative} #people{display:none} }
 @media (max-width:600px){ #tools{width:54px}.tool,.art,.size{width:40px} }
 @media (max-height:500px), (max-width:600px){
   #zoomBar{right:6px;bottom:6px;padding:1px;border-radius:8px}
   #zoomBar button{width:28px;height:26px;font-size:15px}
   #zoomPct{min-width:36px;font-size:11px}
   #stage{padding:4px}
-  #top{padding:4px 8px}
+  #top{padding:4px 8px;gap:4px}
+  #top h1{display:none}
+  .lbl{display:none}
+  #netText{display:none}
+  .tbtn{padding:4px 7px}
 }
 </style>
 </head>
@@ -178,7 +217,9 @@ input,textarea,select{font:inherit;color:inherit}
     </div>
     <div id="right">
       <button id="pngBtn" class="tbtn" title="Diese Seite als Bild speichern">🖼️</button>
-      <button id="gramBtn" class="tbtn" title="Grammatik prüfen">✓ Grammatik</button>
+      <button id="handBtn" class="tbtn hidden" title="Sich melden – der Lehrer sieht es">🙋 <span class="lbl">Melden</span></button>
+      <button id="menuBtn" class="tbtn" title="Wissen, Vorlagen, Werkzeuge">📚 <span class="lbl">Menü</span></button>
+      <button id="gramBtn" class="tbtn" title="Grammatik prüfen">✓ <span class="lbl">Grammatik</span></button>
       <div id="status"><span class="dot" id="netDot"></span><span id="netText"></span></div>
       <div id="people"></div>
     </div>
@@ -230,6 +271,8 @@ input,textarea,select{font:inherit;color:inherit}
         <button id="zOut" title="Kleiner">−</button><span id="zoomPct">100%</span><button id="zIn" title="Größer">+</button>
         <button id="zFit" title="Ganze Tafel zeigen">⤢</button><button id="fsBtn" title="Vollbild">⛶</button>
       </div>
+      <div id="timerBadge" class="badge hidden"></div>
+      <div id="pickBadge" class="badge pick hidden"></div>
       <div id="lockNote" class="note hidden">🔒 Der Lehrer schreibt gerade. Du kannst zuschauen.</div>
       <div id="toast" class="note hidden"></div>
     </div>
@@ -249,6 +292,57 @@ input,textarea,select{font:inherit;color:inherit}
         <div id="gInfo">Die Prüfung nutzt LanguageTool im Internet.</div>
         <div id="gOut" class="hidden"></div>
         <div id="gList"></div>
+      </div>
+    </aside>
+    <aside id="menu" class="hidden">
+      <header><b>📚 Menü</b><button id="menuClose" title="Schließen">✕</button></header>
+      <div class="tabs">
+        <button class="tab on" data-pane="paneKnow">📖 Wissen</button>
+        <button class="tab" data-pane="paneTpl">📋 Vorlagen</button>
+        <button class="tab" data-pane="paneTools">🧰 Werkzeuge</button>
+      </div>
+      <div class="body">
+        <div id="paneKnow" class="pane">
+          <input id="knowSearch" placeholder="Suchen … (z. B. Dativ, Perfekt)" autocomplete="off">
+          <div id="knowList"></div>
+        </div>
+        <div id="paneTpl" class="pane hidden">
+          <p class="hint">Fertige Tabellen zum Ausfüllen. Sie kommen auf die Tafel und alle sehen sie.</p>
+          <div class="tplGrid">
+            <button data-tpl="artikel">🎨 Artikel-Tabelle</button>
+            <button data-tpl="kasus">🧩 Kasus-Tabelle</button>
+            <button data-tpl="konj">🔁 Konjugation</button>
+            <button data-tpl="perfekt">⏪ Perfekt</button>
+            <button data-tpl="satzbau">🧱 Satzbau</button>
+            <button data-tpl="wfragen">❓ W-Fragen</button>
+            <button data-tpl="mindmap">🕸️ Wortschatz-Mindmap</button>
+          </div>
+        </div>
+        <div id="paneTools" class="pane hidden">
+          <h4>Bilder &amp; Arbeitsblätter</h4>
+          <div class="row2">
+            <button id="imgBtn" class="mini big2">🖼️ Bild einfügen</button>
+            <button id="pdfBtn" class="mini big2 tOnly">📄 PDF einfügen</button>
+          </div>
+          <p class="hint">Bilder kann man auch mit Strg+V einfügen oder auf die Tafel ziehen. Jede PDF-Seite wird eine eigene Tafel-Seite.</p>
+          <input type="file" id="imgFile" accept="image/*" class="hidden">
+          <input type="file" id="pdfFile" accept="application/pdf,.pdf" class="hidden">
+          <div class="tOnly">
+            <h4>⏱ Timer (alle sehen ihn)</h4>
+            <div class="row2">
+              <button class="mini" data-timer="1">1 Min</button><button class="mini" data-timer="3">3 Min</button>
+              <button class="mini" data-timer="5">5 Min</button><button class="mini" data-timer="10">10 Min</button>
+              <button class="mini" id="timerCustom">…</button><button class="mini" id="timerStop">Stopp</button>
+            </div>
+          </div>
+          <div class="hostOnly">
+            <h4>🎲 Wer ist dran?</h4>
+            <button id="pickBtn" class="mini big2">Zufällig einen Schüler wählen</button>
+            <h4>🙋 Meldungen</h4>
+            <div id="handList">Niemand meldet sich gerade.</div>
+            <button id="handsDown" class="mini">Alle Hände runter</button>
+          </div>
+        </div>
       </div>
     </aside>
   </div>
@@ -290,7 +384,7 @@ safe-buffer/index.js:
 const W = 1600, H = 1000;
 const PALETTE = ["#e11d48","#2563eb","#16a34a","#9333ea","#ea580c","#0891b2","#be185d","#4d7c0f","#b45309","#0f766e"];
 const SHAPES = ["line","arrow","rect","ellipse"];
-const TYPES = ["pen","hl","text","line","arrow","rect","ellipse"];
+const TYPES = ["pen","hl","text","line","arrow","rect","ellipse","img"];
 const $ = s => document.querySelector(s);
 const ls = { get(k){ try { return localStorage.getItem(k); } catch(_) { return null; } },
              set(k,v){ try { localStorage.setItem(k,v); } catch(_){} } };
@@ -341,6 +435,10 @@ function clean(it){
     c: /^#[0-9a-fA-F]{3,8}$/.test(it.c) ? it.c : "#1f2430",
     w: Math.min(Math.max(+it.w||4,1),80), p, ts: +it.ts || Date.now(), by: String(it.by||"").slice(0,40) };
   if (it.t === "text"){ o.tx = String(it.tx||"").slice(0,300); o.fs = Math.min(Math.max(+it.fs||40,10),120); }
+  if (it.t === "img"){
+    if (typeof it.src !== "string" || it.src.length > 1500000 || !/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+\/=]+$/.test(it.src) || p.length < 4) return null;
+    o.src = it.src; o.p = p.slice(0,4);
+  }
   return o;
 }
 
@@ -380,6 +478,16 @@ function drawBg(c, bg){
   }
   c.restore();
 }
+const imgCache = new Map();
+function imgFor(it){
+  let im = imgCache.get(it.id);
+  if (!im || im._src !== it.src){
+    im = new Image(); im._src = it.src; im.onload = () => { dirty = true; }; im.src = it.src;
+    imgCache.set(it.id, im);
+  }
+  return im;
+}
+const byLayer = (a,b) => ((a.t==="img"?0:1) - (b.t==="img"?0:1)) || (a.ts - b.ts);
 const FONT = fs => `${fs}px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif`;
 
 function drawItem(c, it, alpha, mark){
@@ -410,6 +518,11 @@ function drawItem(c, it, alpha, mark){
     c.strokeRect(Math.min(p[0],p[2]), Math.min(p[1],p[3]), Math.abs(p[2]-p[0]), Math.abs(p[3]-p[1]));
   } else if (t === "ellipse" && p.length >= 4){
     c.beginPath(); c.ellipse((p[0]+p[2])/2,(p[1]+p[3])/2,Math.max(Math.abs(p[2]-p[0])/2,1),Math.max(Math.abs(p[3]-p[1])/2,1),0,0,Math.PI*2); c.stroke();
+  } else if (t === "img" && p.length >= 4){
+    const im = imgFor(it);
+    const x = Math.min(p[0],p[2]), y = Math.min(p[1],p[3]), w = Math.abs(p[2]-p[0]), h = Math.abs(p[3]-p[1]);
+    if (im && im.complete && im.naturalWidth) c.drawImage(im, x, y, w, h);
+    else { c.fillStyle = "#f1f5f9"; c.fillRect(x,y,w,h); }
   } else if (t === "text"){
     c.font = FONT(it.fs||40); c.textBaseline = "top";
     c.fillText(it.tx||"", p[0], p[1]);
@@ -435,7 +548,7 @@ function render(){
   ctx.setTransform(k*dpr,0,0,k*dpr,-V.ox*k*dpr,-V.oy*k*dpr);
   drawBg(ctx, curPage().bg);
   const items = pageItems(S.page);
-  const list = [...items.values()].sort((a,b)=>a.ts-b.ts);
+  const list = [...items.values()].sort(byLayer);
   for (const it of list) drawItem(ctx, it, null, S.gramMarks.has(it.id));
   for (const l of S.live.values()) if (l.it.pg === S.page && !items.has(l.it.id)) drawItem(ctx, l.it, 0.9);
   for (const l of S.lasers) if (l.it.pg === S.page) drawItem(ctx, l.it, Math.max(0, 1-(now-l.t)/1400));
@@ -535,9 +648,29 @@ const NET = {
   },
   to(id, msg){ const c = this.conns.get(id); if (c) pub(c.client, topic(this.code, "c/" + id), msg, 1); }
 };
+const PART = 20000;   // public relays dislike big messages: split anything larger
 function pub(client, t, msg, qos){
   if (!client || !client.connected) return;
-  try { client.publish(t, JSON.stringify(msg), {qos: qos ?? 1}); } catch(_){}
+  const str = JSON.stringify(msg);
+  try {
+    if (str.length <= PART){ client.publish(t, str, {qos: qos ?? 1}); return; }
+    const mid = rid(), n = Math.ceil(str.length / PART);
+    for (let i=0; i<n; i++)
+      client.publish(t, JSON.stringify({type:"part", mid, i, n, d:str.slice(i*PART,(i+1)*PART), from:msg.from, ex:msg.ex}), {qos:1});
+  } catch(_){}
+}
+const parts = new Map();
+function reasm(m){
+  if (!m || m.type !== "part") return m;
+  if (typeof m.mid !== "string" || !(m.n > 0) || m.n > 200 || !(m.i >= 0) || m.i >= m.n || typeof m.d !== "string") return null;
+  const now = Date.now();
+  for (const [k,v] of parts) if (now - v.t > 60000) parts.delete(k);
+  let e = parts.get(m.mid);
+  if (!e){ e = {t:now, n:m.n, got:0, d:new Array(m.n)}; parts.set(m.mid, e); }
+  if (e.d[m.i] == null){ e.d[m.i] = m.d; e.got++; }
+  if (e.got < e.n) return null;
+  parts.delete(m.mid);
+  try { const full = JSON.parse(e.d.join("")); return full && typeof full === "object" ? full : null; } catch(_) { return null; }
 }
 function parse(buf){ try { const m = JSON.parse(typeof buf === "string" ? buf : new TextDecoder().decode(buf)); return m && typeof m === "object" ? m : null; } catch(_) { return null; } }
 function mqttConnect(b, once){
@@ -581,7 +714,7 @@ function openHost(){
       // tell students who are already waiting that the teacher is (back) online
       pub(cl, topic(code, "all"), {type:"hostup"}, 1);
     });
-    cl.on("message", (t, payload) => { if (code !== NET.code) return; const m = parse(payload); if (m) onClientMsg(cl, m); });
+    cl.on("message", (t, payload) => { if (code !== NET.code) return; const m = reasm(parse(payload)); if (m) onClientMsg(cl, m); });
     cl.on("close", () => updatePeople());
     cl.on("error", () => {});
   });
@@ -606,6 +739,7 @@ function sendInit(c, id){
     if (batch.length) NET.to(id, {type:"many", items:batch});
   }
   NET.to(id, {type:"ready"});
+  if (typeof timerEnd !== "undefined" && timerEnd > Date.now()) NET.to(id, {type:"timer", ms: timerEnd - Date.now()});
 }
 function onClientMsg(client, m){
   const from = typeof m.from === "string" ? m.from.slice(0,40) : "";
@@ -621,6 +755,10 @@ function onClientMsg(client, m){
   c.seen = Date.now(); c.client = client;
   switch (m.type){
     case "ping": break;
+    case "hand":
+      c.hand = !!m.up; c.handAt = Date.now();
+      if (c.hand) toast("🙋 " + c.name + " meldet sich.");
+      updatePeople(); break;
     case "bye": NET.conns.delete(from); NET.broadcast({type:"cursor", from, x:null}, null, 0); updatePeople(); renderCursors(); break;
     case "add": {
       const it = clean(m.item); if (!it || !S.pages.some(p=>p.id===it.pg)) return;
@@ -651,10 +789,11 @@ function onClientMsg(client, m){
 }
 function updatePeople(){
   const list = [{id:S.me.id, name:S.me.name+" (Lehrer)", color:S.me.color, me:true}];
-  for (const c of NET.conns.values()) list.push({id:c.id, name:c.name, color:c.color});
+  for (const c of NET.conns.values()) list.push({id:c.id, name:c.name, color:c.color, hand:!!c.hand});
   renderPeople(list);
+  if (typeof renderHands === "function") renderHands();
   if (S.mode === "host"){
-    NET.broadcast({type:"peers", list:list.map(({id,name,color})=>({id,name,color}))}, null, 0);
+    NET.broadcast({type:"peers", list:list.map(({id,name,color,hand})=>({id,name,color,hand:!!hand}))}, null, 0);
     const n = NET.conns.size;
     if (NET.clients.some(c => c.connected)) setNet("ok", n ? n + " Schüler verbunden" : "Bereit – warte auf Schüler");
     else setNet("warn", "Verbinde…");
@@ -694,7 +833,7 @@ function tryAll(){
       cl.subscribe([topic(code,"all"), topic(code,"c/"+S.me.id)], {qos:1}, () => hello());
     });
     cl.on("message", (t, payload) => {
-      const m = parse(payload); if (!m) return;
+      const m = reasm(parse(payload)); if (!m) return;
       if (!NET.joined){
         if (m.type === "init" && t.endsWith("/c/" + S.me.id)){
           clearTimeout(timer); NET.joined = true; NET.host = cl; $("#joinBtn").disabled = false;
@@ -755,6 +894,9 @@ function onHostMsg(m){
       if (!S.pages.some(p=>p.id===S.page)) S.page = S.pages[0].id;
       renderPages(); updateLockUI(); dirty = true; break;
     }
+    case "handdown": if (S.hand) setHand(false); break;
+    case "timer": startTimer(Math.min(Math.max(+m.ms||0, 0), 7200000), true); break;
+    case "pick": showPick(String(m.name||"").slice(0,24)); break;
     case "follow": if (S.pages.some(p=>p.id===m.pg)){ gotoPage(m.pg); toast("Der Lehrer hat die Seite gewechselt."); } break;
     case "live": { const d = sanitizeLive(m); if (d){ d.from = String(m.from||""); onLive(d); } break; }
     case "cursor": {
@@ -764,7 +906,7 @@ function onHostMsg(m){
       renderCursors(); break;
     }
     case "peers": if (Array.isArray(m.list)){
-      const list = m.list.slice(0,60).map(p=>({id:String(p.id), name:String(p.name||"").slice(0,30), color:String(p.color||"#888"), me:String(p.id)===S.me.id}));
+      const list = m.list.slice(0,60).map(p=>({id:String(p.id), name:String(p.name||"").slice(0,30), color:String(p.color||"#888"), hand:!!p.hand, me:String(p.id)===S.me.id}));
       peerNames = new Map(list.map(p=>[p.id,p])); renderPeople(list);
       for (const k of [...remoteCursors.keys()]) if (!peerNames.has(k)) remoteCursors.delete(k);
       renderCursors();
@@ -830,7 +972,8 @@ function renderPeople(list){
   for (const p of list){
     const c = document.createElement("span"); c.className = "chip";
     const i = document.createElement("i"); i.style.background = /^#/.test(p.color) ? p.color : "#888";
-    const t = document.createElement("span"); t.textContent = (p.name || "Gast") + (p.me ? " (du)" : "");
+    const t = document.createElement("span"); t.textContent = (p.hand ? "🙋 " : "") + (p.name || "Gast") + (p.me ? " (du)" : "");
+    if (p.hand) c.style.background = "#fef3c7";
     c.append(i,t); el.appendChild(c);
   }
 }
@@ -904,7 +1047,7 @@ board.addEventListener("pointerdown", e => {
   if (S.tool === "text"){ e.preventDefault(); openText(x,y); return; }
   try { board.setPointerCapture(e.pointerId); } catch(_){}
   drawing = true; sentLen = 0; eraseHits = new Set();
-  if (S.tool === "eraser"){ eraseAt(x,y); return; }
+  if (S.tool === "eraser"){ eraseAt(x,y,true); return; }
   const t = S.tool, w = t === "hl" ? Math.max(16, S.width*4) : S.width;
   S.draft = { id: rid(), pg:S.page, t, c:S.color, w, p: SHAPES.includes(t) ? [x,y,x,y] : [x,y], by:S.me.id, ts:Date.now() };
   dirty = true;
@@ -954,6 +1097,7 @@ function distSeg(px,py,x1,y1,x2,y2){
 function textWidth(it){ ctx.save(); ctx.font = FONT(it.fs||40); const w = ctx.measureText(it.tx||"").width; ctx.restore(); return w; }
 function hit(it,x,y){
   const p = it.p, tol = (it.w||4)/2 + 10;
+  if (it.t === "img") return x>=Math.min(p[0],p[2]) && x<=Math.max(p[0],p[2]) && y>=Math.min(p[1],p[3]) && y<=Math.max(p[1],p[3]);
   if (it.t === "text") return x>=p[0]-6 && x<=p[0]+textWidth(it)+6 && y>=p[1]-6 && y<=p[1]+(it.fs||40)*1.25+6;
   if (it.t === "rect" || it.t === "ellipse"){
     const x1=Math.min(p[0],p[2]), x2=Math.max(p[0],p[2]), y1=Math.min(p[1],p[3]), y2=Math.max(p[1],p[3]);
@@ -967,10 +1111,16 @@ function hit(it,x,y){
   for (let i=0; i<p.length-2; i+=2) if (distSeg(x,y,p[i],p[i+1],p[i+2],p[i+3]) < tol) return true;
   return false;
 }
-function eraseAt(x,y){
+function eraseAt(x,y,first){
+  let any = false;
   for (const it of [...pageItems(S.page).values()]){
-    if (eraseHits.has(it.id)) continue;
-    if (hit(it,x,y)){ eraseHits.add(it.id); delItem(S.page, it.id); }
+    if (it.t === "img" || eraseHits.has(it.id)) continue;
+    if (hit(it,x,y)){ eraseHits.add(it.id); delItem(S.page, it.id); any = true; }
+  }
+  // pictures are only removed by a single tap on them (so wiping over a worksheet keeps it)
+  if (first && !any){
+    const imgs = [...pageItems(S.page).values()].filter(it => it.t === "img" && hit(it,x,y)).sort((a,b)=>b.ts-a.ts);
+    if (imgs.length) ask("Dieses Bild von der Tafel löschen?", {danger:true}).then(ok => { if (ok) delItem(S.page, imgs[0].id); });
   }
 }
 
@@ -1162,7 +1312,7 @@ $("#openFile").onchange = async e => {
 $("#pngBtn").onclick = () => {
   const c = document.createElement("canvas"); c.width = W; c.height = H;
   const x = c.getContext("2d"); drawBg(x, curPage().bg);
-  for (const it of [...pageItems(S.page).values()].sort((a,b)=>a.ts-b.ts)) drawItem(x, it);
+  for (const it of [...pageItems(S.page).values()].sort(byLayer)) drawItem(x, it);
   c.toBlob(b => b && download((curPage().name||"tafel").replace(/[^\wäöüÄÖÜß-]+/g,"_") + ".png", b), "image/png");
 };
 
@@ -1338,6 +1488,574 @@ function applyFix(i, rep){
 }
 
 // =====================================================================
+// Pictures and PDF worksheets
+// =====================================================================
+function readAsDataURL(file){ return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = rej; r.readAsDataURL(file); }); }
+function loadImg(src){ return new Promise((res, rej) => { const im = new Image(); im.onload = () => res(im); im.onerror = rej; im.src = src; }); }
+// shrink so it travels quickly to everyone (< ~450 KB)
+function compress(source, w, h){
+  let max = 1400, q = 0.8, out = "";
+  for (let tries = 0; tries < 8; tries++){
+    const k = Math.min(1, max / Math.max(w, h));
+    const c = document.createElement("canvas"); c.width = Math.max(1, Math.round(w*k)); c.height = Math.max(1, Math.round(h*k));
+    const x = c.getContext("2d"); x.fillStyle = "#fff"; x.fillRect(0,0,c.width,c.height); x.drawImage(source, 0, 0, c.width, c.height);
+    out = c.toDataURL("image/jpeg", q);
+    if (out.length < 450000) return {src:out, w:c.width, h:c.height};
+    if (q > 0.55) q -= 0.1; else max = Math.round(max * 0.8);
+  }
+  return {src:out, w:0, h:0};
+}
+function placeImage(src, w, h, pg, full){
+  // fit into what is visible now (or the whole page for PDF pages)
+  const vx = full ? 0 : V.ox, vy = full ? 0 : V.oy, vw = full ? W : W/V.z, vh = full ? H : H/V.z;
+  const k = Math.min(vw*(full?0.96:0.8)/w, vh*(full?0.96:0.8)/h);
+  const iw = Math.round(w*k), ih = Math.round(h*k);
+  const x = Math.round(vx + (vw-iw)/2), y = Math.round(vy + (vh-ih)/2);
+  const it = { id:rid(), pg: pg || S.page, t:"img", c:"#000000", w:1, p:[x,y,x+iw,y+ih], src, by:S.me.id, ts:Date.now() };
+  S.undo.push({pg:it.pg, id:it.id}); addItem(it); return it;
+}
+async function insertImageFile(file){
+  if (!canDraw()){ flashLock(); return; }
+  if (!file || !/^image\//.test(file.type)){ toast("Bitte ein Bild wählen (JPG, PNG)."); return; }
+  try {
+    toast("Bild wird eingefügt…");
+    const im = await loadImg(await readAsDataURL(file));
+    const r = compress(im, im.naturalWidth, im.naturalHeight);
+    if (!r.w){ toast("Das Bild ist zu groß."); return; }
+    placeImage(r.src, r.w, r.h);
+    toast("Bild ist auf der Tafel ✓");
+  } catch(_){ toast("Das Bild konnte nicht gelesen werden."); }
+}
+let pdfLib = null;
+function loadPdfJs(){
+  if (pdfLib) return Promise.resolve(pdfLib);
+  return new Promise((res, rej) => {
+    const s = document.createElement("script");
+    s.src = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
+    s.onload = () => {
+      if (!window.pdfjsLib) return rej(new Error("pdf"));
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+      pdfLib = window.pdfjsLib; res(pdfLib);
+    };
+    s.onerror = () => rej(new Error("net"));
+    document.head.appendChild(s);
+  });
+}
+async function insertPdf(file){
+  if (!isTeacher()){ toast("PDFs kann nur der Lehrer einfügen."); return; }
+  try {
+    toast("PDF wird geladen…");
+    const lib = await loadPdfJs();
+    const doc = await lib.getDocument({data: new Uint8Array(await file.arrayBuffer())}).promise;
+    const n = Math.min(doc.numPages, 20);
+    const base = file.name.replace(/\.pdf$/i, "").slice(0, 18) || "PDF";
+    const made = [];
+    for (let i = 1; i <= n; i++){
+      toast("PDF Seite " + i + " von " + n + "…");
+      const page = await doc.getPage(i);
+      const vp0 = page.getViewport({scale:1});
+      const vp = page.getViewport({scale: 1600 / Math.max(vp0.width, vp0.height)});
+      const c = document.createElement("canvas"); c.width = Math.round(vp.width); c.height = Math.round(vp.height);
+      const x = c.getContext("2d"); x.fillStyle = "#fff"; x.fillRect(0,0,c.width,c.height);
+      await page.render({canvasContext:x, viewport:vp}).promise;
+      const r = compress(c, c.width, c.height);
+      const id = "p" + rid();
+      S.pages.push({id, name: n > 1 ? base + " " + i : base, bg:"blank"}); pageItems(id);
+      made.push({id, r});
+    }
+    settingsChanged();
+    for (const m of made) placeImage(m.r.src, m.r.w, m.r.h, m.id, true);
+    if (made.length){ gotoPage(made[0].id); NET.send({type:"follow", pg:made[0].id}); }
+    toast(n + (n === 1 ? " Seite" : " Seiten") + " eingefügt ✓" + (doc.numPages > 20 ? " (nur die ersten 20)" : ""));
+  } catch(e){
+    toast(e && e.message === "net" ? "PDF braucht Internet (PDF-Leser wird geladen)." : "Das PDF konnte nicht gelesen werden.");
+  }
+}
+// paste and drop pictures straight onto the board
+document.addEventListener("paste", e => {
+  if (!$("#app").dataset.in) return;
+  const tag = (e.target && e.target.tagName) || "";
+  if (tag === "INPUT" || tag === "TEXTAREA") return;
+  const f = [...(e.clipboardData ? e.clipboardData.files : [])].find(f => /^image\//.test(f.type));
+  if (f){ e.preventDefault(); insertImageFile(f); }
+});
+stage.addEventListener("dragover", e => { e.preventDefault(); });
+stage.addEventListener("drop", e => {
+  e.preventDefault();
+  const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]; if (!f) return;
+  if (/pdf$/i.test(f.type) || /\.pdf$/i.test(f.name)) insertPdf(f); else insertImageFile(f);
+});
+
+// =====================================================================
+// Hand raising, timer, random pick
+// =====================================================================
+S.hand = false;
+function setHand(up){
+  S.hand = !!up;
+  const b = $("#handBtn"); b.classList.toggle("on", S.hand); b.innerHTML = S.hand ? '🙋 <span class="lbl">Hand unten</span>' : '🙋 <span class="lbl">Melden</span>';
+  NET.send({type:"hand", up:S.hand});
+}
+$("#handBtn").onclick = () => setHand(!S.hand);
+function raisedHands(){ return [...NET.conns.values()].filter(c => c.hand).sort((a,b)=>a.handAt-b.handAt); }
+function renderHands(){
+  const box = $("#handList"); if (!box) return;
+  box.textContent = "";
+  const list = raisedHands();
+  if (!list.length){ box.textContent = "Niemand meldet sich gerade."; return; }
+  list.forEach((c,i) => {
+    const row = document.createElement("div"); row.className = "handRow";
+    const n = document.createElement("span"); n.textContent = (i+1) + ". " + c.name;
+    const b = document.createElement("button"); b.textContent = "Dran ✓"; b.className = "mini";
+    b.onclick = () => { c.hand = false; NET.to(c.id, {type:"handdown"}); NET.broadcast({type:"pick", name:c.name}, null, 1); showPick(c.name); updatePeople(); renderHands(); };
+    row.append(n, b); box.append(row);
+  });
+}
+$("#handsDown").onclick = () => { for (const c of NET.conns.values()) if (c.hand){ c.hand = false; NET.to(c.id, {type:"handdown"}); } updatePeople(); renderHands(); };
+
+// timer: everybody sees the same countdown
+let timerEnd = 0, timerTick = 0;
+function startTimer(ms, fromNet){
+  timerEnd = ms > 0 ? Date.now() + ms : 0;
+  if (!fromNet) NET.send({type:"timer", ms});
+  clearInterval(timerTick);
+  const el = $("#timerBadge");
+  const draw = () => {
+    const left = timerEnd - Date.now();
+    if (!timerEnd){ show(el, false); return; }
+    if (left <= 0){
+      el.textContent = "⏰ Zeit ist um!"; el.classList.add("done");
+      clearInterval(timerTick); setTimeout(() => { if (Date.now() >= timerEnd) { show(el,false); el.classList.remove("done"); timerEnd = 0; } }, 8000);
+      beep(); return;
+    }
+    const s = Math.ceil(left/1000);
+    el.textContent = "⏱ " + Math.floor(s/60) + ":" + String(s%60).padStart(2,"0");
+    el.classList.remove("done"); show(el, true);
+  };
+  draw(); if (timerEnd) timerTick = setInterval(draw, 250);
+}
+function beep(){
+  try {
+    const A = window.AudioContext || window.webkitAudioContext; if (!A) return;
+    const a = new A(); [0, 0.35, 0.7].forEach(t => {
+      const o = a.createOscillator(), g = a.createGain(); o.frequency.value = 880; o.connect(g); g.connect(a.destination);
+      g.gain.setValueAtTime(0.0001, a.currentTime+t); g.gain.exponentialRampToValueAtTime(0.25, a.currentTime+t+0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, a.currentTime+t+0.25); o.start(a.currentTime+t); o.stop(a.currentTime+t+0.3);
+    });
+  } catch(_){}
+}
+document.querySelectorAll("[data-timer]").forEach(b => b.onclick = () => startTimer(+b.dataset.timer * 60000));
+$("#timerStop").onclick = () => startTimer(0);
+$("#timerCustom").onclick = async () => {
+  const v = await ask("Wie viele Minuten?", {value:"2"}); if (v == null) return;
+  const m = parseFloat(String(v).replace(",", ".")); if (m > 0 && m <= 120) startTimer(Math.round(m*60000));
+};
+function showPick(name){
+  const el = $("#pickBadge"); el.textContent = "🎲 " + name + " ist dran!"; show(el, true);
+  clearTimeout(showPick.t); showPick.t = setTimeout(() => show(el, false), 6000);
+}
+$("#pickBtn").onclick = () => {
+  const list = [...NET.conns.values()];
+  if (!list.length){ toast("Noch keine Schüler verbunden."); return; }
+  const c = list[Math.floor(Math.random()*list.length)];
+  NET.broadcast({type:"pick", name:c.name}, null, 1); showPick(c.name);
+};
+
+// =====================================================================
+// Menu panel (Wissen / Vorlagen / Werkzeuge)
+// =====================================================================
+function openPanel(which){
+  const m = $("#menu"), g = $("#gram");
+  if (which === "menu"){ const on = m.classList.contains("hidden"); show(m, on); show(g, false); }
+  else { const on = g.classList.contains("hidden"); show(g, on); show(m, false); if (on) gIn.focus(); }
+  if (g.classList.contains("hidden")){ S.gramMarks.clear(); dirty = true; }
+  setTimeout(fit, 0);
+}
+$("#menuBtn").onclick = () => openPanel("menu");
+$("#gramBtn").onclick = () => openPanel("gram");
+$("#menuClose").onclick = () => { show($("#menu"), false); setTimeout(fit, 0); };
+document.querySelectorAll("#menu .tab").forEach(t => t.onclick = () => {
+  document.querySelectorAll("#menu .tab").forEach(x => x.classList.toggle("on", x === t));
+  document.querySelectorAll("#menu .pane").forEach(p => show(p, p.id === t.dataset.pane));
+});
+$("#imgBtn").onclick = () => $("#imgFile").click();
+$("#imgFile").onchange = e => { const f = e.target.files[0]; e.target.value = ""; if (f) insertImageFile(f); };
+$("#pdfBtn").onclick = () => $("#pdfFile").click();
+$("#pdfFile").onchange = e => { const f = e.target.files[0]; e.target.value = ""; if (f) insertPdf(f); };
+
+// ---------- Wissen: reference cards ----------
+// Format: "# Zwischentitel", "a | b | c" = Tabellenzeile (erste Zeile eines Blocks = Kopf), sonst Text.
+const KNOW = [
+ { t:"Artikel erkennen: der, die, das", k:"artikel genus nomen endung", l:[
+  "# Meistens die",
+  "-ung (die Zeitung), -heit (die Freiheit), -keit (die Möglichkeit)",
+  "-schaft (die Freundschaft), -ion (die Information), -tät (die Universität)",
+  "-ie (die Familie), -ik (die Musik), -ei (die Bäckerei)",
+  "viele Nomen auf -e (die Lampe, die Straße)",
+  "# Meistens das",
+  "-chen, -lein (das Mädchen, das Büchlein)",
+  "-ment (das Dokument), -um (das Museum)",
+  "Verben als Nomen (das Essen, das Schwimmen)",
+  "# Meistens der",
+  "Tage, Monate, Jahreszeiten (der Montag, der Mai, der Winter)",
+  "Personen auf -er (der Lehrer), -ling (der Frühling), -ismus (der Tourismus)",
+  "# Tipp",
+  "Jedes Nomen immer mit Artikel und Plural lernen: der Tisch, die Tische."
+ ]},
+ { t:"Artikel in den vier Fällen", k:"kasus fall nominativ akkusativ dativ genitiv artikel der den dem des ein einen einem", l:[
+  "# Bestimmter Artikel",
+  "Fall | maskulin | feminin | neutral | Plural",
+  "Nominativ | der | die | das | die",
+  "Akkusativ | den | die | das | die",
+  "Dativ | dem | der | dem | den (+n)",
+  "Genitiv | des (+s) | der | des (+s) | der",
+  "# Unbestimmter Artikel",
+  "Fall | maskulin | feminin | neutral | Plural",
+  "Nominativ | ein | eine | ein | –",
+  "Akkusativ | einen | eine | ein | –",
+  "Dativ | einem | einer | einem | –",
+  "Genitiv | eines | einer | eines | –",
+  "Negation: kein, keine, kein – wie ein (Plural: keine)."
+ ]},
+ { t:"Wer? Wen? Wem? – Fragen zu den Fällen", k:"kasus fragen nominativ akkusativ dativ wer wen wem", l:[
+  "Nominativ: Wer? Was? → Der Mann liest.",
+  "Akkusativ: Wen? Was? → Ich sehe den Mann.",
+  "Dativ: Wem? → Ich helfe dem Mann.",
+  "Genitiv: Wessen? → Das Auto des Mannes.",
+  "# Typische Verben mit Dativ",
+  "helfen, danken, gefallen, gehören, antworten, gratulieren, schmecken, passen"
+ ]},
+ { t:"Personalpronomen", k:"pronomen ich du er sie mich dich mir dir ihn ihm", l:[
+  "Nominativ | Akkusativ | Dativ",
+  "ich | mich | mir",
+  "du | dich | dir",
+  "er | ihn | ihm",
+  "sie | sie | ihr",
+  "es | es | ihm",
+  "wir | uns | uns",
+  "ihr | euch | euch",
+  "sie / Sie | sie / Sie | ihnen / Ihnen"
+ ]},
+ { t:"Possessivartikel (mein, dein …)", k:"possessiv mein dein sein ihr unser euer", l:[
+  "ich → mein | du → dein | er → sein",
+  "sie → ihr | es → sein | wir → unser",
+  "ihr → euer | sie → ihr | Sie → Ihr",
+  "Endungen wie bei ein/eine: mein Vater, meine Mutter, mein Kind, meine Eltern.",
+  "Akkusativ maskulin: Ich besuche meinen Vater.",
+  "Dativ: mit meinem Vater, mit meiner Mutter, mit meinen Eltern."
+ ]},
+ { t:"Verben im Präsens", k:"präsens konjugation verb endung sein haben werden", l:[
+  "Person | machen | sein | haben | werden",
+  "ich | mache | bin | habe | werde",
+  "du | machst | bist | hast | wirst",
+  "er/sie/es | macht | ist | hat | wird",
+  "wir | machen | sind | haben | werden",
+  "ihr | macht | seid | habt | werdet",
+  "sie/Sie | machen | sind | haben | werden",
+  "Stamm auf -t/-d: du arbeitest, er arbeitet, ihr findet.",
+  "Vokalwechsel (du, er/sie/es): fahren → du fährst, sprechen → er spricht, sehen → sie sieht."
+ ]},
+ { t:"Modalverben", k:"modalverb können müssen dürfen wollen sollen mögen möchten", l:[
+  "Person | können | müssen | dürfen | wollen | sollen | möchten",
+  "ich | kann | muss | darf | will | soll | möchte",
+  "du | kannst | musst | darfst | willst | sollst | möchtest",
+  "er/sie/es | kann | muss | darf | will | soll | möchte",
+  "wir | können | müssen | dürfen | wollen | sollen | möchten",
+  "ihr | könnt | müsst | dürft | wollt | sollt | möchtet",
+  "sie/Sie | können | müssen | dürfen | wollen | sollen | möchten",
+  "Satz: Ich kann heute nicht kommen. (Infinitiv am Ende)"
+ ]},
+ { t:"Trennbare und untrennbare Verben", k:"trennbar untrennbar präfix aufstehen anrufen einkaufen", l:[
+  "# Trennbar (Präfix geht ans Ende)",
+  "an-, auf-, aus-, ein-, mit-, ab-, zu-, vor-, zurück-, fern-",
+  "aufstehen → Ich stehe um 7 Uhr auf.",
+  "einkaufen → Wir kaufen heute ein.",
+  "Mit Modalverb: Ich muss früh aufstehen.",
+  "# Untrennbar",
+  "be-, ver-, er-, ent-, emp-, ge-, zer-, miss-",
+  "Ich verstehe das. Er bekommt einen Brief."
+ ]},
+ { t:"Perfekt: haben oder sein?", k:"perfekt vergangenheit partizip haben sein gemacht gegangen", l:[
+  "Perfekt = haben/sein (Position 2) + Partizip II (Ende)",
+  "Ich habe Deutsch gelernt. Sie ist nach Berlin gefahren.",
+  "# Mit sein",
+  "Bewegung: gehen, fahren, fliegen, kommen, laufen",
+  "Veränderung: aufstehen, einschlafen, aufwachen, sterben",
+  "außerdem: sein, bleiben, werden, passieren",
+  "# Partizip II",
+  "regelmäßig: ge- … -t → machen → gemacht, kaufen → gekauft",
+  "unregelmäßig: ge- … -en → sehen → gesehen, schreiben → geschrieben",
+  "trennbar: ein|ge|kauft, auf|ge|standen",
+  "ohne ge-: -ieren (studiert, telefoniert), be-/ver-/er- (besucht, verstanden)"
+ ]},
+ { t:"Präteritum: war, hatte, konnte", k:"präteritum vergangenheit war hatte konnte musste", l:[
+  "Person | sein | haben | können | müssen",
+  "ich | war | hatte | konnte | musste",
+  "du | warst | hattest | konntest | musstest",
+  "er/sie/es | war | hatte | konnte | musste",
+  "wir | waren | hatten | konnten | mussten",
+  "ihr | wart | hattet | konntet | musstet",
+  "sie/Sie | waren | hatten | konnten | mussten",
+  "Im Gespräch: sein, haben und Modalverben im Präteritum, andere Verben im Perfekt."
+ ]},
+ { t:"Präpositionen", k:"präposition akkusativ dativ wechselpräposition wo wohin", l:[
+  "# Immer Akkusativ",
+  "durch, für, gegen, ohne, um → Das ist für dich.",
+  "# Immer Dativ",
+  "aus, bei, mit, nach, seit, von, zu → Ich fahre mit dem Bus.",
+  "# Wechselpräpositionen",
+  "an, auf, hinter, in, neben, über, unter, vor, zwischen",
+  "Wo? → Dativ: Das Buch liegt auf dem Tisch.",
+  "Wohin? → Akkusativ: Ich lege das Buch auf den Tisch.",
+  "# Kurzformen",
+  "am = an dem, im = in dem, ins = in das, zum = zu dem, zur = zu der, vom = von dem, beim = bei dem"
+ ]},
+ { t:"Satzbau: Wo steht das Verb?", k:"satzbau wortstellung verb position nebensatz frage satzklammer", l:[
+  "# Aussagesatz: Verb auf Position 2",
+  "Ich lerne heute Deutsch. / Heute lerne ich Deutsch.",
+  "# Satzklammer: zweites Verb am Ende",
+  "Ich muss heute Deutsch lernen. Ich habe gestern Deutsch gelernt.",
+  "# Fragen",
+  "W-Frage: Wann kommst du? (Verb auf Position 2)",
+  "Ja/Nein-Frage: Kommst du heute? (Verb auf Position 1)",
+  "# Nebensatz: Verb am Ende",
+  "Ich bleibe zu Hause, weil ich krank bin.",
+  "# Reihenfolge im Mittelfeld (oft): Te-Ka-Mo-Lo",
+  "temporal (wann?) – kausal (warum?) – modal (wie?) – lokal (wo?)",
+  "Ich fahre morgen wegen der Arbeit mit dem Zug nach Berlin."
+ ]},
+ { t:"Konnektoren: und, weil, deshalb …", k:"konnektor konjunktion weil dass deshalb aber denn wenn obwohl", l:[
+  "# Position 0 (Verb bleibt auf Position 2)",
+  "und, aber, oder, denn, sondern → Ich bin müde, aber ich lerne.",
+  "# Verb am Ende (Nebensatz)",
+  "weil, dass, wenn, ob, obwohl, als, damit, bevor, nachdem",
+  "Ich weiß, dass du recht hast.",
+  "# Verb direkt danach (Position 1 + Verb)",
+  "deshalb, trotzdem, dann, danach, außerdem",
+  "Es regnet, deshalb bleibe ich zu Hause."
+ ]},
+ { t:"Adjektivendungen", k:"adjektiv endung deklination gute guten guter", l:[
+  "# Mit der, die, das",
+  "Fall | maskulin | feminin | neutral | Plural",
+  "Nom. | der gute Mann | die gute Frau | das gute Kind | die guten Kinder",
+  "Akk. | den guten Mann | die gute Frau | das gute Kind | die guten Kinder",
+  "Dat. | dem guten Mann | der guten Frau | dem guten Kind | den guten Kindern",
+  "# Mit ein, eine",
+  "Fall | maskulin | feminin | neutral | Plural (ohne Artikel)",
+  "Nom. | ein guter Mann | eine gute Frau | ein gutes Kind | gute Kinder",
+  "Akk. | einen guten Mann | eine gute Frau | ein gutes Kind | gute Kinder",
+  "Dat. | einem guten Mann | einer guten Frau | einem guten Kind | guten Kindern"
+ ]},
+ { t:"Vergleichen: groß, größer, am größten", k:"komparativ superlativ vergleich als wie", l:[
+  "schnell → schneller → am schnellsten",
+  "groß → größer → am größten",
+  "alt → älter → am ältesten",
+  "gut → besser → am besten",
+  "viel → mehr → am meisten",
+  "gern → lieber → am liebsten",
+  "hoch → höher → am höchsten",
+  "Gleich: Tom ist so groß wie Ali.",
+  "Anders: Tom ist größer als Ali."
+ ]},
+ { t:"Zahlen", k:"zahlen zählen ordinal datum", l:[
+  "21 einundzwanzig, 35 fünfunddreißig, 99 neunundneunzig",
+  "100 (ein)hundert, 1.000 (ein)tausend, 1.000.000 eine Million",
+  "1990 neunzehnhundertneunzig, 2026 zweitausendsechsundzwanzig",
+  "# Ordnungszahlen",
+  "der erste, zweite, dritte, vierte … siebte … neunzehnte, zwanzigste",
+  "Datum: Heute ist der 12. November. Ich komme am 3. Mai."
+ ]},
+ { t:"Uhrzeit", k:"uhrzeit uhr halb viertel", l:[
+  "Offiziell: 14:30 → vierzehn Uhr dreißig",
+  "Im Alltag:",
+  "3:15 → Viertel nach drei",
+  "3:30 → halb vier",
+  "3:45 → Viertel vor vier",
+  "3:25 → fünf vor halb vier",
+  "3:35 → fünf nach halb vier",
+  "Wie spät ist es? / Wann …? → Um acht Uhr."
+ ]},
+ { t:"Tage, Monate, Jahreszeiten", k:"wochentage monate jahreszeiten am im um", l:[
+  "Montag, Dienstag, Mittwoch, Donnerstag, Freitag, Samstag, Sonntag",
+  "Januar, Februar, März, April, Mai, Juni, Juli, August, September, Oktober, November, Dezember",
+  "der Frühling, der Sommer, der Herbst, der Winter",
+  "am Montag, am Wochenende – im Mai, im Sommer – um 8 Uhr"
+ ]},
+ { t:"Sätze für den Unterricht", k:"redemittel unterricht frage verstehen wiederholen", l:[
+  "Wie bitte?",
+  "Können Sie das bitte wiederholen?",
+  "Langsamer, bitte.",
+  "Ich verstehe das nicht.",
+  "Was bedeutet …?",
+  "Wie sagt man … auf Deutsch?",
+  "Wie schreibt man das?",
+  "Ich habe eine Frage.",
+  "Darf ich kurz rausgehen?",
+  "Ich bin fertig."
+ ]},
+ { t:"Arbeitsanweisungen verstehen", k:"anweisung aufgabe lesen ergänzen ankreuzen zuordnen", l:[
+  "Lesen Sie den Text. → Text lesen",
+  "Hören Sie zu. → zuhören",
+  "Ergänzen Sie. → die Lücken füllen",
+  "Kreuzen Sie an. → ☒ markieren",
+  "Ordnen Sie zu. → Paare bilden (1 – c)",
+  "Markieren Sie. → farbig anstreichen",
+  "Sprechen Sie mit Ihrem Partner. → zu zweit sprechen",
+  "Schreiben Sie … → schreiben"
+ ]},
+ { t:"Höflich sprechen: du oder Sie?", k:"höflich sie du konjunktiv könnten hätte würden", l:[
+  "du: Familie, Freunde, Kinder, oft Kollegen",
+  "Sie: Behörden, Ärzte, Lehrer, fremde Erwachsene",
+  "# Höfliche Bitten",
+  "Könnten Sie mir bitte helfen?",
+  "Ich hätte gern einen Kaffee.",
+  "Würden Sie bitte das Fenster öffnen?",
+  "Entschuldigung, wo ist …?"
+ ]}
+];
+function renderKnow(filter){
+  const box = $("#knowList"); box.textContent = "";
+  const q = (filter||"").trim().toLowerCase();
+  for (const e of KNOW){
+    if (q && !(e.t.toLowerCase().includes(q) || e.k.includes(q) || e.l.join(" ").toLowerCase().includes(q))) continue;
+    const card = document.createElement("details"); card.className = "kcard";
+    const sum = document.createElement("summary"); sum.textContent = e.t; card.append(sum);
+    const body = document.createElement("div"); body.className = "kbody";
+    let table = null;
+    for (const line of e.l){
+      if (line.includes(" | ")){
+        if (!table){ table = document.createElement("table"); body.append(table); var head = true; }
+        const tr = document.createElement("tr");
+        for (const cell of line.split(" | ")){ const td = document.createElement(head ? "th" : "td"); td.textContent = cell; tr.append(td); }
+        table.append(tr); head = false; continue;
+      }
+      table = null;
+      if (line.startsWith("# ")){ const h = document.createElement("h4"); h.textContent = line.slice(2); body.append(h); }
+      else { const p = document.createElement("p"); p.textContent = line; body.append(p); }
+    }
+    const b = document.createElement("button"); b.className = "mini put"; b.textContent = "Auf die Tafel";
+    b.onclick = () => knowToBoard(e);
+    body.append(b); card.append(body); box.append(card);
+  }
+  if (!box.children.length) box.textContent = "Nichts gefunden.";
+}
+$("#knowSearch").addEventListener("input", e => renderKnow(e.target.value));
+
+// a reference card -> board items (title, text, real tables)
+function knowToBoard(e){
+  if (!canDraw()){ flashLock(); return; }
+  const items = [], x0 = 60;
+  let y = 50;
+  const T = (tx, x, yy, fs, c) => items.push({t:"text", tx, p:[x,yy], fs, c:c||"#1f2430"});
+  T(e.t, x0, y, 46, "#1d4ed8"); y += 72;
+  let i = 0;
+  while (i < e.l.length && y < H - 40){
+    const line = e.l[i];
+    if (line.includes(" | ")){
+      const rows = [];
+      while (i < e.l.length && e.l[i].includes(" | ")) rows.push(e.l[i++].split(" | "));
+      const cols = Math.max(...rows.map(r => r.length));
+      const fs = cols > 5 ? 22 : 26, rh = fs + 18;
+      ctx.save(); ctx.font = FONT(fs);
+      const cw = []; for (let c = 0; c < cols; c++) cw[c] = Math.max(...rows.map(r => ctx.measureText(r[c]||"").width)) + 28;
+      ctx.restore();
+      const total = cw.reduce((a,b)=>a+b,0), k = Math.min(1, (W - 2*x0) / total);
+      for (let c = 0; c < cols; c++) cw[c] *= k;
+      rows.forEach((r, ri) => {
+        let x = x0;
+        if (ri === 0) items.push({t:"rect", p:[x0, y, x0+total*k, y+rh], c:"#93c5fd", w:rh, hlBox:true});
+        r.forEach((cell, c) => { T(cell, x + 12, y + 9, ri === 0 ? fs : fs, ri === 0 ? "#1e3a8a" : "#1f2430"); x += cw[c]; });
+        items.push({t:"line", p:[x0, y+rh, x0+total*k, y+rh], c:"#94a3b8", w:2});
+        y += rh;
+      });
+      y += 14; continue;
+    }
+    if (line.startsWith("# ")){ y += 6; T(line.slice(2), x0, y, 32, "#b45309"); y += 46; }
+    else { T(line, x0, y, 28); y += 42; }
+    i++;
+  }
+  dropItems(items);
+  toast("„" + e.t + "“ steht auf der Tafel ✓");
+}
+// put a list of simple item specs onto the current page
+function dropItems(specs){
+  const ts = Date.now();
+  specs.forEach((s, n) => {
+    let it;
+    if (s.hlBox){ // filled header band = thick highlighter line
+      const y = (s.p[1] + s.p[3]) / 2;
+      it = {t:"hl", p:[s.p[0], y, s.p[2], y], c:s.c, w:Math.min(80, s.w)};
+    } else it = {t:s.t, p:s.p, c:s.c||"#1f2430", w:s.w||3};
+    if (s.t === "text"){ it.tx = String(s.tx).slice(0,300); it.fs = s.fs || 32; it.w = 2; }
+    it.id = rid(); it.pg = S.page; it.by = S.me.id; it.ts = ts + n;
+    S.undo.push({pg:it.pg, id:it.id});
+    addItem(it);
+  });
+}
+
+// ---------- Vorlagen ----------
+function tableTpl(title, heads, headColors, rowsN, firstCol){
+  const items = [], x0 = 60, top = 40;
+  items.push({t:"text", tx:title, p:[x0, top], fs:44, c:"#1f2430"});
+  const y0 = top + 80, cols = heads.length, cw = (W - 2*x0) / cols;
+  const rh = Math.min(90, (H - y0 - 40) / (rowsN + 1));
+  heads.forEach((h, c) => {
+    const col = headColors[c] || "#94a3b8";
+    items.push({t:"rect", p:[x0 + c*cw + 4, y0 + 4, x0 + (c+1)*cw - 4, y0 + rh - 4], c:col, w:rh - 8, hlBox:true});
+    items.push({t:"text", tx:h, p:[x0 + c*cw + 16, y0 + rh/2 - 18], fs:34, c:"#111827"});
+  });
+  const yEnd = y0 + rh*(rowsN+1);
+  items.push({t:"rect", p:[x0, y0, W - x0, yEnd], c:"#64748b", w:3});
+  for (let c = 1; c < cols; c++) items.push({t:"line", p:[x0 + c*cw, y0, x0 + c*cw, yEnd], c:"#64748b", w:2});
+  for (let r = 1; r <= rowsN; r++) items.push({t:"line", p:[x0, y0 + r*rh, W - x0, y0 + r*rh], c:"#94a3b8", w:2});
+  if (firstCol) firstCol.forEach((tx, r) => items.push({t:"text", tx, p:[x0 + 16, y0 + (r+1)*rh + rh/2 - 16], fs:30, c:"#334155"}));
+  return items;
+}
+const TEMPLATES = {
+  artikel: () => tableTpl("Artikel-Tabelle", ["der", "die", "das", "die (Plural)"], ["#93c5fd","#fca5a5","#86efac","#fcd34d"], 8),
+  konj: () => tableTpl("Konjugation (Präsens)", ["Person", "Verb: ________", "Verb: ________", "Verb: ________"], ["#e2e8f0","#c7d2fe","#c7d2fe","#c7d2fe"], 6,
+                       ["ich", "du", "er / sie / es", "wir", "ihr", "sie / Sie"]),
+  perfekt: () => tableTpl("Perfekt", ["Infinitiv", "haben / sein", "Partizip II"], ["#e2e8f0","#fcd34d","#86efac"], 8),
+  satzbau: () => tableTpl("Satzbau", ["Position 1", "Verb (2)", "Mittelfeld", "Satzende"], ["#e2e8f0","#fca5a5","#e2e8f0","#fca5a5"], 6),
+  kasus: () => tableTpl("Kasus", ["Fall", "maskulin", "feminin", "neutral", "Plural"], ["#e2e8f0","#93c5fd","#fca5a5","#86efac","#fcd34d"], 4,
+                        ["Nominativ", "Akkusativ", "Dativ", "Genitiv"]),
+  wfragen: () => {
+    const items = [{t:"text", tx:"W-Fragen", p:[60,40], fs:44, c:"#1f2430"}];
+    const qs = ["Wer?", "Was?", "Wo?", "Wohin?", "Woher?", "Wann?", "Wie?", "Warum?"];
+    qs.forEach((q, i) => {
+      const col = i % 2, row = Math.floor(i / 2), x = 60 + col*760, y = 130 + row*210;
+      items.push({t:"rect", p:[x, y, x + 720, y + 180], c:"#94a3b8", w:3});
+      items.push({t:"text", tx:q, p:[x + 20, y + 16], fs:36, c:"#b45309"});
+    });
+    return items;
+  },
+  mindmap: () => {
+    const items = [{t:"text", tx:"Wortschatz", p:[60,40], fs:44, c:"#1f2430"}];
+    const cx = 800, cy = 540;
+    items.push({t:"ellipse", p:[cx-170, cy-75, cx+170, cy+75], c:"#1d4ed8", w:5});
+    items.push({t:"text", tx:"Thema", p:[cx-62, cy-24], fs:40, c:"#1d4ed8"});
+    for (let i = 0; i < 6; i++){
+      const a = -Math.PI/2 + i * Math.PI/3, ex = cx + Math.cos(a)*470, ey = cy + Math.sin(a)*330;
+      items.push({t:"line", p:[cx + Math.cos(a)*170, cy + Math.sin(a)*75, ex - Math.cos(a)*130, ey - Math.sin(a)*55], c:"#64748b", w:3});
+      items.push({t:"ellipse", p:[ex-130, ey-55, ex+130, ey+55], c:"#64748b", w:3});
+    }
+    return items;
+  }
+};
+document.querySelectorAll("[data-tpl]").forEach(b => b.onclick = async () => {
+  if (!canDraw()){ flashLock(); return; }
+  if (pageItems(S.page).size){
+    const ok = await ask(isTeacher() ? "Auf dieser Seite ist schon etwas. Die Vorlage auf eine neue Seite legen?" : "Die Vorlage auf diese Seite legen?", {okText: isTeacher() ? "Neue Seite" : "Ja", extra: isTeacher() ? "Diese Seite" : null});
+    if (ok === false || ok == null) return;
+    if (ok === true && isTeacher()){
+      const id = "p" + rid(); S.pages.push({id, name: b.textContent.replace(/^[^A-Za-zÄÖÜäöü]+/, "").trim().slice(0,30), bg:"blank"}); pageItems(id); settingsChanged(); gotoPage(id);
+      NET.send({type:"follow", pg:id});
+    }
+  }
+  dropItems(TEMPLATES[b.dataset.tpl]());
+  toast("Vorlage eingefügt ✓");
+});
+
+// =====================================================================
 // Start
 // =====================================================================
 function enterApp(){
@@ -1348,6 +2066,10 @@ function enterApp(){
   if (S.mode === "solo"){ show($("#followBtn"), false); show($("#lockBtn"), false); }
   if (S.mode === "client"){ $("#lockNote").textContent = "🔒 Der Lehrer schreibt gerade. Du kannst zuschauen."; }
   else $("#lockNote").textContent = "🔒 Nur du kannst gerade schreiben.";
+  show($("#handBtn"), S.mode === "client");
+  document.querySelectorAll(".tOnly").forEach(el => show(el, isTeacher()));
+  document.querySelectorAll(".hostOnly").forEach(el => show(el, S.mode === "host"));
+  renderKnow("");
   fit(); renderPages(); updateLockUI();
   if (S.mode !== "host") renderPeople([{id:S.me.id, name:S.me.name, color:S.me.color, me:true}]);
   else updatePeople();
