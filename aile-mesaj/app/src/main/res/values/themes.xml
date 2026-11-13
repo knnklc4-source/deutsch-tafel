@@ -1,0 +1,7 @@
+<resources>
+    <style name="Theme.AileMesaj" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/bg</item>
+    </style>
+    <color name="bg">#FFFBFE</color>
+    <color name="ic_bg">#2E7D6B</color>
+</resources>
